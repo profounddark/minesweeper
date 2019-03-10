@@ -1,0 +1,41 @@
+.gameboard
+{
+
+
+}
+
+
+.row
+{
+    margin: 0; padding: 0;
+}
+
+.tile
+{
+    font-size: 1.4rem;
+    display: inline-block;
+    text-align:center;
+    margin: 0; padding: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.row .tile
+{
+    background-color:rgb(46, 201, 46);;
+}
+
+.row:nth-child(2n) .tile
+{  
+    background-color:lightgreen;
+}
+
+.row .tile:nth-child(2n)
+{
+    background-color:lightgreen;
+}
+
+.row:nth-child(2n) .tile:nth-child(2n)
+{
+    background-color: rgb(46, 201, 46);
+}
