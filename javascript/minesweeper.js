@@ -11,21 +11,39 @@ class Minesweeper
         this.bombCount = initBombs;
         this.firstMove = true;
     
+
         this.revealedTiles = 0;
 
         this.gameBoard = document.querySelector('#gameboard');
         this.loseScreen = document.querySelector('#lose-screen');
         this.winScreen = document.querySelector('#win-screen');
 
-        this.gameState = this.initializeGameState();
+        this.initializeGameState();
         console.log(this.gameState);
 
+    }
+
+    addBombs(numberBombs)
+    {
+        let bombLoop = 0;
+
+        while(bombLoop < numberBombs)
+        {
+            let bombX = Math.floor(Math.random() * this.xSize);
+            let bombY = Math.floor(Math.random() * this.ySize);
+            if (!this.isBomb(bombX, bombY))
+            {
+                this.gameState[bombX][bombY].bomb = true;
+                console.log("Adding bomb to " + bombX + ", " + bombY);
+                bombLoop++;
+            }
+        } 
     }
 
     // initializes the internal game state (but not the board!)
     initializeGameState()
     {
-        let tempBoard = [];
+        this.gameState = [];
         for (let column = 0; column < this.xSize; column++)
         {
             let newColumn = [];
@@ -34,22 +52,11 @@ class Minesweeper
                 let newSpace = {bomb: false, revealed: false, tile: null};
                 newColumn[row] = newSpace;
             }
-            tempBoard[column] = newColumn;
+            this.gameState[column] = newColumn;
         }
 
-        let bombLoop = 0;
+        this.addBombs(this.bombCount);
 
-        while(bombLoop < this.bombCount)
-        {
-            let bombX = Math.floor(Math.random() * this.xSize);
-            let bombY = Math.floor(Math.random() * this.ySize);
-            if (tempBoard[bombX][bombY].bomb == false)
-            {
-                tempBoard[bombX][bombY].bomb = true;
-                bombLoop++;
-            }
-        }
-        return tempBoard;    
     }
 
     // sets up the game board
@@ -105,17 +112,17 @@ class Minesweeper
         
         
         // I could reduce the number of lines by injecting this directly into the for loops
-        let colStart = Math.max((ySpace - 1), 0);
-        let colEnd = Math.min((ySpace + 1), (this.ySize-1));
-        let rowStart = Math.max((xSpace - 1), 0);
-        let rowEnd = Math.min((xSpace + 1), (this.xSize-1));
+        let colStart = Math.max((xSpace - 1), 0);
+        let colEnd = Math.min((xSpace + 1), (this.ySize-1));
+        let rowStart = Math.max((ySpace - 1), 0);
+        let rowEnd = Math.min((ySpace + 1), (this.xSize-1));
 
 
         for (let col = colStart; col <= colEnd; col++)
         {
             for (let row = rowStart; row <= rowEnd; row++)
             {
-                if (this.isBomb(row, col))
+                if (this.isBomb(col, row))
                 {
                     count++;
                 }
@@ -129,7 +136,7 @@ class Minesweeper
         return (this.gameState[x][y].tile);
     }
 
-    revealSpace(tileX, tileY)
+    revealSpace(tileX, tileY, adjBombs)
     {
         let targetTile = this.getTargetTile(tileX, tileY);
 
@@ -137,25 +144,90 @@ class Minesweeper
         this.revealedTiles++;
 
         targetTile.setAttribute("class", "tile reveal");
-        
-        let adjBombs = this.numberAdjacentBombs(tileX, tileY);
-        
-        // TODO: reveal more tiles if adjacent bombs is 0
-        if (adjBombs == 0)
-        {
 
-        }
-        else if (adjBombs != 0)
+        if (adjBombs > 0)
         {
             targetTile.innerHTML = "";
             let newSpan = document.createElement("span");
+            newSpan.setAttribute("class", "bomb" + adjBombs);
             newSpan.innerHTML = adjBombs;
-            
+                
             targetTile.appendChild(newSpan);
         }
-
         //remove listener (for now)
         event.target.removeEventListener("click", handleTurn);
+    }
+
+    spaceCascade(tileX, tileY)
+    {
+        let cascadeArray = [];
+        cascadeArray.push({x: tileX, y: tileY});
+        while (cascadeArray.length > 0)
+        {
+            let currentXY = cascadeArray[0];
+
+            // reveal the cell
+            let bombCount = this.numberAdjacentBombs(currentXY.x, currentXY.y);
+            this.revealSpace(currentXY.x, currentXY.y, bombCount);
+            if (bombCount == 0)
+            {
+                // add the adjacent cells
+                let colStart = Math.max((currentXY.x - 1), 0);
+                let colEnd = Math.min((currentXY.x + 1), (this.xSize-1));
+                let rowStart = Math.max((currentXY.y - 1), 0);
+                let rowEnd = Math.min((currentXY.y + 1), (this.ySize-1));
+                for (let col = colStart; col <= colEnd; col++)
+                {
+                    for (let row = rowStart; row <= rowEnd; row++)
+                    {
+                        if (this.gameState[col][row].revealed == false)
+                        {
+                            cascadeArray.push({x: col, y: row});
+                        }
+                    }
+                }
+            }
+
+            cascadeArray.shift();
+
+           
+        }
+    }
+
+    processFirstMove(tileX, tileY)
+    {
+        this.firstMove = false;
+        let numbBombs = this.numberAdjacentBombs(tileX, tileY);
+
+        if (numbBombs > 0)
+        {
+            // I could reduce the number of lines by injecting this directly into the for loops
+            let colStart = Math.max((tileX - 1), 0);
+            let colEnd = Math.min((tileX + 1), (this.xSize-1));
+            let rowStart = Math.max((tileY - 1), 0);
+            let rowEnd = Math.min((tileY + 1), (this.ySize-1));
+         
+            console.log("Clearing " + numbBombs + " bombs!");
+            for (let col = colStart; col <= colEnd; col++)
+            {
+                for (let row = rowStart; row <= rowEnd; row++)
+                {
+                    this.gameState[col][row].bomb = true;
+                }
+            }
+            
+            this.addBombs(numbBombs);
+
+            for (let col = colStart; col <= colEnd; col++)
+            {
+                for (let row = rowStart; row <= rowEnd; row++)
+                {
+                    this.gameState[col][row].bomb = false;
+                }
+            }
+        }
+        console.log(this.gameState);
+        this.processMove(tileX, tileY)
     }
 
     processMove(tileX,tileY)
@@ -169,15 +241,25 @@ class Minesweeper
             targetTile.setAttribute("class", "tile bomb");
             targetTile.innerHTML = "";
             let newSpan = document.createElement("span");
-            newSpan.innerHTML = "B";
+            newSpan.innerHTML = "!";
             targetTile.appendChild(newSpan);
             this.loseScreen.setAttribute("class", "show");
         }
         else if (!this.isBomb(tileX, tileY) && !this.isRevealed(tileX, tileY))
         {
-            this.revealSpace(tileX, tileY);
+            let adjBombCount = this.numberAdjacentBombs(tileX, tileY);
+            if (adjBombCount == 0)
+            {
+                this.spaceCascade(tileX, tileY);
+            }
+            else
+            {
+                this.revealSpace(tileX, tileY, adjBombCount);
+            }
         }
     }
+
+
 
     setUpTileListeners()
     {
@@ -202,7 +284,7 @@ class Minesweeper
 
 document.addEventListener("DOMContentLoaded", function(event)
     {            
-        currentGame = new Minesweeper(5,5,5);
+        currentGame = new Minesweeper(10,10,10);
         currentGame.setupGameBoard();
         
     }
@@ -213,6 +295,13 @@ function handleTurn(event)
     // get the X, Y from the space; I added the parseint because I had problems w/ stirngs
     let tileX = parseInt(event.target.getAttribute("data-x"));
     let tileY = parseInt(event.target.getAttribute("data-y"));
-    currentGame.processMove(tileX, tileY);
+    if (currentGame.firstMove)
+    {
+        currentGame.processFirstMove(tileX, tileY);
+    }
+    else
+    {
+        currentGame.processMove(tileX, tileY);
+    }
     currentGame.winCheck();
 }

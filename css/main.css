@@ -105,3 +105,22 @@ body
     border-bottom: solid;
 }
 
+.tile span.bomb1
+{
+    color: blue;
+}
+
+.tile span.bomb2
+{
+    color: green;
+}
+
+.tile span.bomb3
+{
+    color: red;
+}
+
+.tile span.bomb4
+{
+    color: purple;
+}
