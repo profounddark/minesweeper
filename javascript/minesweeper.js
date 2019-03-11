@@ -49,7 +49,7 @@ class Minesweeper
             let newColumn = [];
             for (let row = 0; row < this.ySize; row++)
             {
-                let newSpace = {bomb: false, revealed: false, tile: null};
+                let newSpace = {bomb: false, revealed: false, flagged: false, tile: null};
                 newColumn[row] = newSpace;
             }
             this.gameState[column] = newColumn;
@@ -102,6 +102,10 @@ class Minesweeper
         return(this.gameState[tileX][tileY].revealed);
     }
 
+    isFlagged(tileX, tileY)
+    {
+        return(this.gameState[tileX][tileY].flagged);
+    }
 
 
     
@@ -145,17 +149,18 @@ class Minesweeper
 
         targetTile.setAttribute("class", "tile reveal");
 
-        if (adjBombs > 0)
+        targetTile.innerHTML = "";
+        let newSpan = document.createElement("span");
+        newSpan.setAttribute("class", "bomb" + adjBombs);
+        newSpan.innerHTML = adjBombs;
+        if (adjBombs == 0)
         {
-            targetTile.innerHTML = "";
-            let newSpan = document.createElement("span");
-            newSpan.setAttribute("class", "bomb" + adjBombs);
-            newSpan.innerHTML = adjBombs;
-                
-            targetTile.appendChild(newSpan);
-        }
+            newSpan.style.visibility = "hidden";
+        }        
+        targetTile.appendChild(newSpan);
+
         //remove listener (for now)
-        event.target.removeEventListener("click", handleTurn);
+        event.target.removeEventListener("mousedown", handleTurn);
     }
 
     spaceCascade(tileX, tileY)
@@ -264,7 +269,29 @@ class Minesweeper
         }
     }
 
+    flagTile(tileX, tileY)
+    {
+        let flaggedTile = this.getTargetTile(tileX, tileY);
+        if (this.isFlagged(tileX, tileY))
+        {
+            this.gameState[tileX][tileY].flagged = false;
+            flaggedTile.innerHTML = "";
+            let newSpan = document.createElement("span");
+            newSpan.innerHTML = "?";
+            newSpan.style.visibility = "hidden";
+            flaggedTile.appendChild(newSpan);
+        }
+        else
+        {
+            this.gameState[tileX][tileY].flagged = true;
+            flaggedTile.innerHTML = "";
+            let newSpan = document.createElement("span");
+            newSpan.innerHTML = "F";
+            flaggedTile.appendChild(newSpan);
 
+        }
+        console.log("flagged " + tileX + ", " + tileY);
+    }
 
     setUpTileListeners()
     {
@@ -274,7 +301,14 @@ class Minesweeper
         let tileElements = document.querySelectorAll(".tile");
         for (let tile of tileElements)
         {
-            tile.addEventListener("click", handleTurn);
+            tile.addEventListener("mousedown", handleTurn);
+            // this disabled the contextmenu that normally comes up
+            tile.addEventListener('contextmenu', (e) =>
+            {
+                e.preventDefault();
+                return false;
+            });
+
         }
     }
 
@@ -299,15 +333,23 @@ document.addEventListener("DOMContentLoaded", function(event)
 function handleTurn(event)
 {
     // get the X, Y from the space; I added the parseint because I had problems w/ stirngs
-    let tileX = parseInt(event.target.getAttribute("data-x"));
-    let tileY = parseInt(event.target.getAttribute("data-y"));
-    if (currentGame.firstMove)
+    let tileX = parseInt(event.currentTarget.getAttribute("data-x"));
+    let tileY = parseInt(event.currentTarget.getAttribute("data-y"));
+    if ((event.button == 0) && (!currentGame.isFlagged(tileX, tileY)))
     {
-        currentGame.processFirstMove(tileX, tileY);
+        if (currentGame.firstMove)
+        {
+            currentGame.processFirstMove(tileX, tileY);
+        }
+        else
+        {
+            currentGame.processMove(tileX, tileY);
+        }
     }
-    else
+    else if (event.button == 2)
     {
-        currentGame.processMove(tileX, tileY);
+        currentGame.flagTile(tileX, tileY);
     }
+
     currentGame.winCheck();
 }
