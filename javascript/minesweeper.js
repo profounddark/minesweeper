@@ -160,7 +160,7 @@ class Minesweeper
         targetTile.appendChild(newSpan);
 
         //remove listener (for now)
-        event.target.removeEventListener("mousedown", handleTurn);
+        targetTile.removeEventListener("mousedown", handleTurn);
     }
 
     spaceCascade(tileX, tileY)

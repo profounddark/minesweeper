@@ -12,10 +12,19 @@ Similar to how the [WATS 3020 TicTacToe](https://github.com/profounddark/wats302
 
 ## Current Status
 
-Game play has been successfully implemented. Win and loss conditions successfully detected. Zero-adjacent spaces successfully cascade to neighboring spaces.
+Basic playable prototype has been implemented.
 
-## Features to be implemented
+### Implemented Features
+1. End game tracking.
+2. Cascading reveal if clicked space has zero adjacent mines.
+3. A first move rule that ensures the first space clicked will have zero adjacent mines.
+4. The ability to flag a space using right click.
 
-1. The ability to flag a space using right click.
-2. Bomb counters that decrement with flags.
-3. Options to select different board sizes.
+### Features to be implemented
+
+1. Bomb counters that decrement with flags.
+2. Options to select different board sizes.
+3. A game timer that lets the player know how long since first move.
+4. Update the graphics and fix the HTML/CSS issues.
+5. Add sounds.
+6. Mobile support? Hmmmm.
