@@ -141,8 +141,11 @@ class Minesweeper
         let adjBombs = this.numberAdjacentBombs(tileX, tileY);
         
         // TODO: reveal more tiles if adjacent bombs is 0
-        
-        if (adjBombs != 0)
+        if (adjBombs == 0)
+        {
+
+        }
+        else if (adjBombs != 0)
         {
             targetTile.innerHTML = "";
             let newSpan = document.createElement("span");
