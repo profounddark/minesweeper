@@ -9,3 +9,13 @@ The goal of Minesweeper is to reveal (click on) all of the spaces on the board t
 The first playable prototype will feature a fixed size game board of 10x10 squares. A start button will start a new game, randomizing the location of mines throughout the board. When a player clicks one of the squares, it will be either be revealed to be a mine or be empty. If the space contains a mine, that player has lost. If the the space does not contain a mine, it will reveal a number indicating how many adjacent spaces (orthogonally and diagonally) contain a mine. For example, if the player clicks on a space that is adjacent to two mines, the space will show a 2 (two). The game ends when one of two events occurs: the player reveals a mine; or the player reveals all spaces except those that contain a mine.
 
 Similar to how the [WATS 3020 TicTacToe](https://github.com/profounddark/wats3020-browser-game) assignment organized the game of TicTacToe, this implementation of MineSweeper will have a class representing the entire game. A two-dimensional array will represent the game board. The board will need to store whether a mine is present in the space (added when the board is created). There may be some prudence in also storing whether or not the space has been revealed by the player or the number of adjacent bombs. There are reasons for either implementation that will be considered throughout the development. The Game class will also have (at least) methods for revealing squares on the board.
+
+## Current Status
+
+Game play has been successfully implemented. Win and loss conditions successfully detected. Zero-adjacent spaces successfully cascade to neighboring spaces.
+
+## Features to be implemented
+
+1. The ability to flag a space using right click.
+2. Bomb counters that decrement with flags.
+3. Options to select different board sizes.

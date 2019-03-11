@@ -99,7 +99,7 @@ class Minesweeper
 
     isRevealed(tileX, tileY)
     {
-        return(this.gameState[tileX][tileY].bomb);
+        return(this.gameState[tileX][tileY].revealed);
     }
 
 
@@ -168,7 +168,12 @@ class Minesweeper
 
             // reveal the cell
             let bombCount = this.numberAdjacentBombs(currentXY.x, currentXY.y);
-            this.revealSpace(currentXY.x, currentXY.y, bombCount);
+            if (!this.isRevealed(currentXY.x, currentXY.y))
+            {
+                console.log("Cascading " + currentXY.x + ", " + currentXY.y);
+                this.revealSpace(currentXY.x, currentXY.y, bombCount);
+            }
+
             if (bombCount == 0)
             {
                 // add the adjacent cells
@@ -279,6 +284,7 @@ class Minesweeper
         {
             this.winScreen.setAttribute("class", "show");
         }
+        console.log("Revealed " + this.revealedTiles + ", out of " + (this.xSize * this.ySize-this.bombCount) + " non-bomb tiles.");
     }
 }
 
