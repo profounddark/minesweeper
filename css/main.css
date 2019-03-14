@@ -22,11 +22,11 @@ body
     min-height: 15%;
     z-index: 1000;
 }
-#win-screen .container, #draw-screen .container {
+#win-screen .container, #lose-screen .container {
     background: rgba(253, 255, 252, 1);
-    color: rgba(10, 46, 54, 1);
-    padding: 3rem;
-    margin-top: 2rem;
+    color: black;
+    padding: 1rem;
+    
 }
 
 /* Gameboard stuff */
@@ -47,7 +47,7 @@ body
 .tile
 {
     font-size: 2rem;
-    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-family: Impact, Charcoal, sans-serif;
     display: inline-block;
     text-align: center;
     margin: 0; padding: 0;
