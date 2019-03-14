@@ -23,6 +23,26 @@ class Minesweeper
 
     }
 
+    /* *********** HELPER FUNCTIONS - BEGIN *********** */
+
+    isBomb(tileX, tileY)
+    {
+        return(this.gameState[tileX][tileY].bomb);
+    }
+
+
+    isRevealed(tileX, tileY)
+    {
+        return(this.gameState[tileX][tileY].revealed);
+    }
+
+    isFlagged(tileX, tileY)
+    {
+        return(this.gameState[tileX][tileY].flagged);
+    }
+
+    /* *********** HELPER FUNCTIONS - END *********** */
+
     addBombs(numberBombs)
     {
         let bombLoop = 0;
@@ -76,12 +96,16 @@ class Minesweeper
                 newCol.setAttribute("data-x", col);
                 newCol.setAttribute("data-y", row);
                 
-                // I put this in just so the DIV size will be correct later
+                // I removed this when I figured out how to do CSS
+                /*
                 let newSpan = document.createElement("span");
                 newSpan.innerHTML = "?";
                 newSpan.style.visibility = "hidden";
-                
+               
                 newCol.appendChild(newSpan);
+                
+                */ 
+
                 this.gameState[col][row].tile = newCol;
                 newRow.appendChild(newCol);
             }
@@ -90,24 +114,6 @@ class Minesweeper
 
         this.setUpTileListeners();
     }
-
-    isBomb(tileX, tileY)
-    {
-        return(this.gameState[tileX][tileY].bomb);
-    }
-
-
-    isRevealed(tileX, tileY)
-    {
-        return(this.gameState[tileX][tileY].revealed);
-    }
-
-    isFlagged(tileX, tileY)
-    {
-        return(this.gameState[tileX][tileY].flagged);
-    }
-
-
     
     // this is used to determine how many bombs are adjacent to a space
     numberAdjacentBombs(xSpace, ySpace)
@@ -150,6 +156,7 @@ class Minesweeper
         targetTile.setAttribute("class", "tile reveal");
 
         targetTile.innerHTML = "";
+        
         let newSpan = document.createElement("span");
         newSpan.setAttribute("class", "bomb" + adjBombs);
         newSpan.innerHTML = adjBombs;
@@ -158,6 +165,8 @@ class Minesweeper
             newSpan.style.visibility = "hidden";
         }        
         targetTile.appendChild(newSpan);
+        
+       
 
         //remove listener (for now)
         targetTile.removeEventListener("mousedown", handleTurn);
@@ -249,10 +258,12 @@ class Minesweeper
         if (this.isBomb(tileX, tileY))
         {
             targetTile.setAttribute("class", "tile bomb");
-            targetTile.innerHTML = "";
+            targetTile.innerHTML = "<img src='./assets/bomb.png'>";
+            /*
             let newSpan = document.createElement("span");
             newSpan.innerHTML = "!";
             targetTile.appendChild(newSpan);
+            */
             this.loseScreen.setAttribute("class", "show");
         }
         else if (!this.isBomb(tileX, tileY) && !this.isRevealed(tileX, tileY))
@@ -284,10 +295,12 @@ class Minesweeper
         else
         {
             this.gameState[tileX][tileY].flagged = true;
-            flaggedTile.innerHTML = "";
+            flaggedTile.innerHTML = "<img src='./assets/flag.png'>";
+            /*
             let newSpan = document.createElement("span");
-            newSpan.innerHTML = "F";
+            newSpan.innerHTML = "<img src='./assets/flag.png'>";
             flaggedTile.appendChild(newSpan);
+            */
 
         }
         console.log("flagged " + tileX + ", " + tileY);

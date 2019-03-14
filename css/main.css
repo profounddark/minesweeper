@@ -16,9 +16,9 @@ body
 #win-screen.show, #lose-screen.show{
     display: block;
     position: absolute;
-    top: 35%;
-    left: 35%;
-    min-width: 20%;
+    top: 25%;
+    left: 25%;
+    min-width: 50%;
     min-height: 15%;
     z-index: 1000;
 }
@@ -32,16 +32,21 @@ body
 /* Gameboard stuff */
 .gameboard
 {
-
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .row
 {
     margin: 0; padding: 0;
+    display: flex;
+    flex-direction: row;
 }
 
 .tile
 {
-    font-size: 2.1rem;
+    font-size: 2rem;
     font-family: "Comic Sans MS", cursive, sans-serif;
     display: inline-block;
     text-align: center;
@@ -54,7 +59,8 @@ body
 
 .tile span
 {
-    height:100%;
+    height:3rem;
+    padding: 0; margin: 0;
     display: inline-flex;
     align-items: center;
 }
@@ -85,6 +91,13 @@ body
 {
     background-color: red;
     
+}
+
+.tile img
+{
+    margin: 0 auto;
+    width: 90%;
+    height: 90%;
 }
 
 /* CSS to put a border around the game area (but only the game area) */
