@@ -41,8 +41,21 @@ class Minesweeper
         return(this.gameState[tileX][tileY].flagged);
     }
 
+    squareBounds(xSpace, ySpace)
+    {
+        let bounds = {
+            colStart: Math.max((xSpace - 1), 0),
+            colEnd: Math.min((xSpace + 1), (this.ySize-1)),
+            rowStart: Math.max((ySpace - 1), 0),
+            rowEnd: Math.min((ySpace + 1), (this.xSize-1))
+        };
+    
+        return bounds;
+    }
+
     /* *********** HELPER FUNCTIONS - END *********** */
 
+    // addBombs adds numberBombs mines to random empty spaces on the board
     addBombs(numberBombs)
     {
         let bombLoop = 0;
@@ -60,7 +73,7 @@ class Minesweeper
         } 
     }
 
-    // initializes the internal game state (but not the board!)
+    // initializes the internal game state (but not the displayed gameboard!)
     initializeGameState()
     {
         this.gameState = [];
@@ -95,16 +108,6 @@ class Minesweeper
                 newCol.setAttribute("class", "tile hidden");
                 newCol.setAttribute("data-x", col);
                 newCol.setAttribute("data-y", row);
-                
-                // I removed this when I figured out how to do CSS
-                /*
-                let newSpan = document.createElement("span");
-                newSpan.innerHTML = "?";
-                newSpan.style.visibility = "hidden";
-               
-                newCol.appendChild(newSpan);
-                
-                */ 
 
                 this.gameState[col][row].tile = newCol;
                 newRow.appendChild(newCol);
@@ -119,18 +122,12 @@ class Minesweeper
     numberAdjacentBombs(xSpace, ySpace)
     {
         let count = 0;
-        
-        
-        // I could reduce the number of lines by injecting this directly into the for loops
-        let colStart = Math.max((xSpace - 1), 0);
-        let colEnd = Math.min((xSpace + 1), (this.ySize-1));
-        let rowStart = Math.max((ySpace - 1), 0);
-        let rowEnd = Math.min((ySpace + 1), (this.xSize-1));
 
+        let bounds = this.squareBounds(xSpace, ySpace);
 
-        for (let col = colStart; col <= colEnd; col++)
+        for (let col = bounds.colStart; col <= bounds.colEnd; col++)
         {
-            for (let row = rowStart; row <= rowEnd; row++)
+            for (let row = bounds.rowStart; row <= bounds.rowEnd; row++)
             {
                 if (this.isBomb(col, row))
                 {
@@ -184,20 +181,17 @@ class Minesweeper
             let bombCount = this.numberAdjacentBombs(currentXY.x, currentXY.y);
             if (!this.isRevealed(currentXY.x, currentXY.y))
             {
-                console.log("Cascading " + currentXY.x + ", " + currentXY.y);
                 this.revealSpace(currentXY.x, currentXY.y, bombCount);
             }
 
             if (bombCount == 0)
             {
                 // add the adjacent cells
-                let colStart = Math.max((currentXY.x - 1), 0);
-                let colEnd = Math.min((currentXY.x + 1), (this.xSize-1));
-                let rowStart = Math.max((currentXY.y - 1), 0);
-                let rowEnd = Math.min((currentXY.y + 1), (this.ySize-1));
-                for (let col = colStart; col <= colEnd; col++)
+                let bounds = this.squareBounds(currentXY.x, currentXY.y);
+
+                for (let col = bounds.colStart; col <= bounds.colEnd; col++)
                 {
-                    for (let row = rowStart; row <= rowEnd; row++)
+                    for (let row = bounds.rowStart; row <= bounds.rowEnd; row++)
                     {
                         if (this.gameState[col][row].revealed == false)
                         {
@@ -218,18 +212,16 @@ class Minesweeper
         this.firstMove = false;
         let numbBombs = this.numberAdjacentBombs(tileX, tileY);
 
+        // This conditional is weird. If there are >0 bombs in the starting 9 tiles,
+        // it marks all of the spaces as bombs, adds bombs elsewhere, and then clears
+        // all the spaces of bomb markers.
         if (numbBombs > 0)
         {
-            // I could reduce the number of lines by injecting this directly into the for loops
-            let colStart = Math.max((tileX - 1), 0);
-            let colEnd = Math.min((tileX + 1), (this.xSize-1));
-            let rowStart = Math.max((tileY - 1), 0);
-            let rowEnd = Math.min((tileY + 1), (this.ySize-1));
-         
-            console.log("Clearing " + numbBombs + " bombs!");
-            for (let col = colStart; col <= colEnd; col++)
+            let bounds = this.squareBounds(tileX, tileY);
+
+            for (let col = bounds.colStart; col <= bounds.colEnd; col++)
             {
-                for (let row = rowStart; row <= rowEnd; row++)
+                for (let row = bounds.rowStart; row <= bounds.rowEnd; row++)
                 {
                     this.gameState[col][row].bomb = true;
                 }
@@ -237,15 +229,14 @@ class Minesweeper
             
             this.addBombs(numbBombs);
 
-            for (let col = colStart; col <= colEnd; col++)
+            for (let col = bounds.colStart; col <= bounds.colEnd; col++)
             {
-                for (let row = rowStart; row <= rowEnd; row++)
+                for (let row = bounds.rowStart; row <= bounds.rowEnd; row++)
                 {
                     this.gameState[col][row].bomb = false;
                 }
             }
         }
-        console.log(this.gameState);
         this.processMove(tileX, tileY)
     }
 
