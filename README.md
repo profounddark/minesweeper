@@ -19,12 +19,13 @@ Basic playable prototype has been implemented.
 2. Cascading reveal if clicked space has zero adjacent mines.
 3. A first move rule that ensures the first space clicked will have zero adjacent mines.
 4. The ability to flag a space using right click.
+5. Updated the CSS/HTML, removed some of the display kludges.
+6. Reveals all bomb on the board if the player loses.
 
 ### Features to be implemented
 
 1. Bomb counters that decrement with flags.
 2. Options to select different board sizes.
 3. A game timer that lets the player know how long since first move.
-4. Update the graphics and fix the HTML/CSS issues.
-5. Add sounds.
-6. Mobile support? Hmmmm.
+4. Add sounds.
+5. Mobile support? Hmmmm.

@@ -91,6 +91,10 @@ body
 .row .bomb
 {
     background-color: red;
+    background-image: url('../assets/bomb.png');
+    background-size: 80% 80%;
+    background-repeat: no-repeat;
+    background-position: center;
     
 }
 

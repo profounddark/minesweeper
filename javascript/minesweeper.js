@@ -169,6 +169,27 @@ class Minesweeper
         targetTile.removeEventListener("mousedown", handleTurn);
     }
 
+    revealBomb(tileX, tileY)
+    {
+        let targetTile = this.gameState[tileX][tileY].tile;   
+        targetTile.setAttribute("class", "tile bomb");
+        //targetTile.innerHTML = "<img src='./assets/bomb.png'>";      
+    }
+
+    revealAllBombs()
+    {
+        for (let col = 0; col < this.xSize; col++)
+        {
+            for (let row = 0; row < this.ySize; row++)
+            {
+                if (this.isBomb(col, row))
+                {
+                    this.revealBomb(col, row);
+                }
+            }
+        }
+    }
+
     spaceCascade(tileX, tileY)
     {
         let cascadeArray = [];
@@ -239,23 +260,15 @@ class Minesweeper
         }
         this.processMove(tileX, tileY)
     }
-
+    
     processMove(tileX,tileY)
     {
-        let targetTile = this.getTargetTile(tileX,tileY);
-
-        console.log("Clicked " + tileX + ", " + tileY);
-            
+        
         if (this.isBomb(tileX, tileY))
         {
-            targetTile.setAttribute("class", "tile bomb");
-            targetTile.innerHTML = "<img src='./assets/bomb.png'>";
-            /*
-            let newSpan = document.createElement("span");
-            newSpan.innerHTML = "!";
-            targetTile.appendChild(newSpan);
-            */
+            this.revealBomb(tileX, tileY);
             this.loseScreen.setAttribute("class", "show");
+            this.revealAllBombs();
         }
         else if (!this.isBomb(tileX, tileY) && !this.isRevealed(tileX, tileY))
         {
