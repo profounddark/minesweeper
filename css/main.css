@@ -139,3 +139,8 @@ body
 {
     color: purple;
 }
+
+.tile span.bomb5
+{
+    color: orange;
+}
