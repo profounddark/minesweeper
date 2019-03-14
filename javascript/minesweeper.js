@@ -172,8 +172,7 @@ class Minesweeper
     revealBomb(tileX, tileY)
     {
         let targetTile = this.gameState[tileX][tileY].tile;   
-        targetTile.setAttribute("class", "tile bomb");
-        //targetTile.innerHTML = "<img src='./assets/bomb.png'>";      
+        targetTile.setAttribute("class", "tile bomb");   
     }
 
     revealAllBombs()
@@ -290,22 +289,12 @@ class Minesweeper
         if (this.isFlagged(tileX, tileY))
         {
             this.gameState[tileX][tileY].flagged = false;
-            flaggedTile.innerHTML = "";
-            let newSpan = document.createElement("span");
-            newSpan.innerHTML = "?";
-            newSpan.style.visibility = "hidden";
-            flaggedTile.appendChild(newSpan);
+            flaggedTile.setAttribute("class", "tile hidden");
         }
         else
         {
             this.gameState[tileX][tileY].flagged = true;
-            flaggedTile.innerHTML = "<img src='./assets/flag.png'>";
-            /*
-            let newSpan = document.createElement("span");
-            newSpan.innerHTML = "<img src='./assets/flag.png'>";
-            flaggedTile.appendChild(newSpan);
-            */
-
+            flaggedTile.setAttribute("class", "tile hidden flag");
         }
         console.log("flagged " + tileX + ", " + tileY);
     }
