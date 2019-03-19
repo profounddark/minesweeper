@@ -29,6 +29,23 @@ body
     
 }
 
+/* scoreboard */
+
+.scoreboard
+{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    font-family: Impact, Charcoal, sans-serif;
+    margin: auto;
+}
+
+.timer, .minecounter
+{
+    font-size: 2rem;
+    padding: 0 5rem;
+}
+
 /* Gameboard stuff */
 .gameboard
 {
@@ -114,7 +131,7 @@ body
     height: 90%;
 }
 
-/* CSS to put a border around the game area (but only the game area) */
+/* CSS to put a border around the game area (but only around the game area) */
 .tile:first-child
 {
     border-left: solid;

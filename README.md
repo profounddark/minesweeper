@@ -21,11 +21,12 @@ Basic playable prototype has been implemented.
 4. The ability to flag a space using right click.
 5. Updated the CSS/HTML, removed some of the display kludges.
 6. Reveals all bomb on the board if the player loses.
+7. Bomb counter now tracks bombs minus flags
+8. Primitive timer has been implemented
 
 ### Features to be implemented
 
-1. Bomb counters that decrement with flags.
-2. Options to select different board sizes.
-3. A game timer that lets the player know how long since first move.
-4. Add sounds.
-5. Mobile support? Hmmmm.
+1. Options to select different board sizes.
+2. Add sounds.
+3. Update the CSS/HTML to make it look better.
+4. The mine tracker gets wonky if you right click too many times.

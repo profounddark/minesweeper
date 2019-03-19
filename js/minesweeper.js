@@ -8,13 +8,17 @@ class Minesweeper
         this.xSize = xSize;
         this.ySize = ySize;
         console.log("board size: " + this.xSize + "x" + this.ySize);
-        this.bombCount = initBombs;
+        this.startBombs = initBombs;
         this.firstMove = true;
     
-
+        this.bombCount = initBombs;
+        this.clockTime = 0;
+        this.intervalClock = null;
         this.revealedTiles = 0;
 
         this.gameBoard = document.querySelector('#gameboard');
+        this.mineCounter = document.querySelector('#minecounter');
+        this.clockBlock = document.querySelector('#timer');
         this.loseScreen = document.querySelector('#lose-screen');
         this.winScreen = document.querySelector('#win-screen');
 
@@ -53,6 +57,12 @@ class Minesweeper
         return bounds;
     }
 
+    updateMineCounter(numBombs)
+    {
+        let bombStr = numBombs.toString();
+        this.mineCounter.innerHTML = bombStr.padStart(3, '0');
+    }
+
     /* *********** HELPER FUNCTIONS - END *********** */
 
     // addBombs adds numberBombs mines to random empty spaces on the board
@@ -88,7 +98,8 @@ class Minesweeper
             this.gameState[column] = newColumn;
         }
 
-        this.addBombs(this.bombCount);
+        this.addBombs(this.startBombs);
+        this.updateMineCounter(this.startBombs);
 
     }
 
@@ -257,6 +268,8 @@ class Minesweeper
                 }
             }
         }
+
+        startClock();
         this.processMove(tileX, tileY)
     }
     
@@ -266,6 +279,7 @@ class Minesweeper
         if (this.isBomb(tileX, tileY))
         {
             this.revealBomb(tileX, tileY);
+            clearInterval(currentGame.intervalClock);
             this.loseScreen.setAttribute("class", "show");
             this.revealAllBombs();
         }
@@ -290,11 +304,17 @@ class Minesweeper
         {
             this.gameState[tileX][tileY].flagged = false;
             flaggedTile.setAttribute("class", "tile hidden");
+            // increment the bomb counter
+            this.bombCount++;
+            this.updateMineCounter(this.bombCount);
         }
         else
         {
             this.gameState[tileX][tileY].flagged = true;
             flaggedTile.setAttribute("class", "tile hidden flag");
+            // decrement hte bomb counter
+            this.bombCount--;
+            this.updateMineCounter(this.bombCount);
         }
         console.log("flagged " + tileX + ", " + tileY);
     }
@@ -320,11 +340,12 @@ class Minesweeper
 
     winCheck()
     {
-        if ((this.bombCount + this.revealedTiles) == (this.xSize * this.ySize))
+        if ((this.startBombs + this.revealedTiles) == (this.xSize * this.ySize))
         {
+            clearInterval(currentGame.intervalClock);
             this.winScreen.setAttribute("class", "show");
         }
-        console.log("Revealed " + this.revealedTiles + ", out of " + (this.xSize * this.ySize-this.bombCount) + " non-bomb tiles.");
+        console.log("Revealed " + this.revealedTiles + ", out of " + (this.xSize * this.ySize-this.startBombs) + " non-bomb tiles.");
     }
 }
 
@@ -335,6 +356,22 @@ document.addEventListener("DOMContentLoaded", function(event)
         
     }
     );
+
+/* *********** TIMER FUNCTIONS - BEGIN ********** */
+// NOTE: SetInterval messes with "this", so I had to pull them out of the class
+
+function updateClock()
+{
+    currentGame.clockTime++;
+    let clockString = currentGame.clockTime.toString();
+    currentGame.clockBlock.innerHTML = clockString.padStart(3, '0');
+}
+function startClock()
+{
+    currentGame.intervalClock = window.setInterval(updateClock, 1000);
+}
+
+/* *********** TIMER FUNCTIONS - END ************ */
 
 function handleTurn(event)
 {
