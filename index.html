@@ -18,52 +18,28 @@
     <body>
         <script src="./js/minesweeper.js"></script>
         <div class="playarea">
-            <div class="scoreboard">
-                <div class="timer">
-                    Time: <span id="timer">000</span>
-                </div>
-                <div class="minecounter">
-                    Mines: <span id="minecounter">10</span>
-                </div>
+            
+            <div class="timer">
+                Time: <span id="timer">000</span>
             </div>
-            <div class="gameboard" id="gameboard">
-                    <div class="row">
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                    </div>
-                    <div class="row">
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                        <div class="tile hidden"><span>?</span></div>
-                    </div>
-                </div>
+            <div class="minecounter">
+                Mines: <span id="minecounter">10</span>
+            </div>
+            
+            <div class="gameboard" id="gameboard" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);">
+                <div class="tile hidden" style="grid-row: 1; grid-column: 1;"></div>
+                <div class="tile hidden odd" style="grid-row: 1; grid-column: 2;"></div>
+                <div class="tile hidden" style="grid-row: 1; grid-column: 3;"></div>
+                
+                <div class="tile hidden odd" style="grid-row: 2; grid-column: 1;"></div>
+                <div class="tile hidden" style="grid-row: 2; grid-column: 2;"></div>
+                <div class="tile hidden odd" style="grid-row: 2; grid-column: 3;"></div>
+
+                <div class="tile hidden" style="grid-row: 3; grid-column: 1;"></div>
+                <div class="tile hidden odd" style="grid-row: 3; grid-column: 2;"></div>
+                <div class="tile hidden" style="grid-row: 3; grid-column: 3;"></div>
+    
+            </div>
 
         </div>
         

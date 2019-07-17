@@ -30,79 +30,79 @@ body
 }
 
 /* scoreboard */
-
-.scoreboard
+.playarea
 {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    font-family: Impact, Charcoal, sans-serif;
-    margin: auto;
+
 }
 
 .timer, .minecounter
 {
+    font-family: Impact, Charcoal, sans-serif;
     font-size: 2rem;
     padding: 0 5rem;
+    grid-row: 1;
 }
+
+.timer
+{
+    margin-left: auto;
+    grid-column: 2;
+}
+
+.minecounter
+{
+    margin-right: auto;
+    grid-column: 3;
+}
+
 
 /* Gameboard stuff */
 .gameboard
 {
-    margin: 0; padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    margin: 0 auto; padding: 0;
+    display: grid;
+    border: solid;
+    width: 30rem;
+    
+
 }
-.row
-{
-    margin: 0; padding: 0;
-    display: flex;
-    flex-direction: row;
-}
+
 
 .tile
 {
     font-size: 2rem;
     font-family: Impact, Charcoal, sans-serif;
-    display: inline-block;
     text-align: center;
     margin: 0; padding: 0;
-    height: 3rem;
-    width: 3rem;
+
     cursor: pointer;
     user-select: none;
+
+    height: 3rem; width: 3rem;
 }
 
-.tile span
-{
-    height:3rem;
-    padding: 0; margin: 0;
-    display: inline-flex;
-    align-items: center;
-    user-select: none;
-}
-
-
-/* CSS to get the colors to alternate for hidden tiles and change for revealaed title */
-.row .hidden, .row:nth-child(2n) .hidden:nth-child(2n)
+.hidden
 {
     background-color:rgb(46, 201, 46);
 }
 
-.row:nth-child(2n) .hidden, .row .hidden:nth-child(2n)
-{  
+.hidden.odd
+{
     background-color:lightgreen;
 }
 
-.row .reveal, .row:nth-child(2n) .reveal:nth-child(2n)
+
+.reveal
 {
     background-color: rgb(240, 240, 210);
+
 }
 
-.row:nth-child(2n) .reveal, .row .reveal:nth-child(2n)
+.reveal.odd
 {
     background-color: rgb(240, 240, 230);
+
 }
 
 .row .flag
@@ -131,25 +131,6 @@ body
     height: 90%;
 }
 
-/* CSS to put a border around the game area (but only around the game area) */
-.tile:first-child
-{
-    border-left: solid;
-}
-.tile:last-child
-{
-    border-right:solid;
-}
-
-.row:first-child .tile
-{
-    border-top: solid;
-}
-
-.row:last-child .tile
-{
-    border-bottom: solid;
-}
 
 .tile span.bomb1
 {

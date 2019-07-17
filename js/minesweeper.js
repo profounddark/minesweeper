@@ -107,23 +107,33 @@ class Minesweeper
     setupGameBoard()
     {
         this.gameBoard.innerHTML = "";
+        let newStyle = "grid-template-columns: repeat(" + this.xSize + ", 1fr); grid-template-rows: repeat(" + this.ySize + ", 1fr);";
+        this.gameBoard.setAttribute("style", newStyle);
 
-        for (let row = 0; row < this.xSize; row++)
+        for (let row = 0; row < this.ySize; row++)
         {
-            let newRow = document.createElement("div");
-            newRow.setAttribute("class", "row");
-
-            for (let col = 0; col < this.ySize; col++)
+            for (let col = 0; col < this.xSize; col++)
             {
-                let newCol = document.createElement("div");
-                newCol.setAttribute("class", "tile hidden");
-                newCol.setAttribute("data-x", col);
-                newCol.setAttribute("data-y", row);
+                let newTile = document.createElement("div");
+                if (((col+row) % 2) == 0)
+                {
+                    newTile.setAttribute("class", "tile hidden");
+                }
+                else
+                {
+                    newTile.setAttribute("class", "tile hidden odd");
+                }
 
-                this.gameState[col][row].tile = newCol;
-                newRow.appendChild(newCol);
+                newTile.setAttribute("data-x", col);
+                newTile.setAttribute("data-y", row);
+                
+                let tileStyle = "grid-row: " + (row+1) + "; grid-column: " + (col+1) + ";";
+                newTile.setAttribute("style", tileStyle);
+
+                this.gameState[col][row].tile = newTile;
+                this.gameBoard.appendChild(newTile);
             }
-            this.gameBoard.appendChild(newRow);
+            
         }
 
         this.setUpTileListeners();
@@ -161,7 +171,15 @@ class Minesweeper
         this.gameState[tileX][tileY].revealed = true;
         this.revealedTiles++;
 
-        targetTile.setAttribute("class", "tile reveal");
+        if ((tileX+tileY)%2 == 0)
+        {
+            targetTile.setAttribute("class", "tile reveal");
+        }
+        else
+        {
+            targetTile.setAttribute("class", "tile reveal odd");
+
+        }
 
         targetTile.innerHTML = "";
         
