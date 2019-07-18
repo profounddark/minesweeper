@@ -23,7 +23,7 @@ class Minesweeper
         this.winScreen = document.querySelector('#win-screen');
 
         this.initializeGameState();
-        console.log(this.gameState);
+
 
     }
 
@@ -77,7 +77,7 @@ class Minesweeper
             if (!this.isBomb(bombX, bombY))
             {
                 this.gameState[bombX][bombY].bomb = true;
-                console.log("Adding bomb to " + bombX + ", " + bombY);
+
                 bombLoop++;
             }
         } 
@@ -188,6 +188,7 @@ class Minesweeper
     revealBomb(tileX, tileY)
     {
         let targetTile = this.gameState[tileX][tileY].tile;   
+        targetTile.innerHTML = "";
         targetTile.setAttribute("class", "tile bomb");   
     }
 
@@ -212,6 +213,7 @@ class Minesweeper
         while (cascadeArray.length > 0)
         {
             let currentXY = cascadeArray[0];
+            console.log(cascadeArray.length);
 
             // reveal the cell
             let bombCount = this.numberAdjacentBombs(currentXY.x, currentXY.y);
@@ -229,8 +231,8 @@ class Minesweeper
                 {
                     for (let row = bounds.rowStart; row <= bounds.rowEnd; row++)
                     {
-                        if (this.gameState[col][row].revealed == false)
-                        {
+                        if ((this.gameState[col][row].revealed == false))
+                        {                            
                             cascadeArray.push({x: col, y: row});
                         }
                     }
@@ -326,7 +328,7 @@ class Minesweeper
             this.bombCount--;
             this.updateMineCounter(this.bombCount);
         }
-        console.log("flagged " + tileX + ", " + tileY);
+
     }
 
     setUpTileListeners()
@@ -361,7 +363,7 @@ class Minesweeper
 
 document.addEventListener("DOMContentLoaded", function(event)
     {            
-        currentGame = new Minesweeper(10,10,10);
+        currentGame = new Minesweeper(10,10,15);
         currentGame.setupGameBoard();
         
     }
