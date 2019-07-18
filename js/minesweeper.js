@@ -83,6 +83,8 @@ class Minesweeper
         } 
     }
 
+
+
     // initializes the internal game state (but not the displayed gameboard!)
     initializeGameState()
     {
@@ -117,11 +119,11 @@ class Minesweeper
                 let newTile = document.createElement("div");
                 if (((col+row) % 2) == 0)
                 {
-                    newTile.setAttribute("class", "tile hidden");
+                    newTile.className = "tile";
                 }
                 else
                 {
-                    newTile.setAttribute("class", "tile hidden odd");
+                    newTile.className = "tile odd";
                 }
 
                 newTile.setAttribute("data-x", col);
@@ -159,6 +161,7 @@ class Minesweeper
         return count;
     }
 
+
     getTargetTile(x, y)
     {
         return (this.gameState[x][y].tile);
@@ -171,29 +174,13 @@ class Minesweeper
         this.gameState[tileX][tileY].revealed = true;
         this.revealedTiles++;
 
-        if ((tileX+tileY)%2 == 0)
+        targetTile.className += " reveal bomb" + adjBombs;
+
+        if (adjBombs != 0)
         {
-            targetTile.setAttribute("class", "tile reveal");
+            targetTile.innerHTML = adjBombs;
         }
-        else
-        {
-            targetTile.setAttribute("class", "tile reveal odd");
-
-        }
-
-        targetTile.innerHTML = "";
         
-        let newSpan = document.createElement("span");
-        newSpan.setAttribute("class", "bomb" + adjBombs);
-        newSpan.innerHTML = adjBombs;
-        if (adjBombs == 0)
-        {
-            newSpan.style.visibility = "hidden";
-        }        
-        targetTile.appendChild(newSpan);
-        
-       
-
         //remove listener (for now)
         targetTile.removeEventListener("mousedown", handleTurn);
     }
@@ -321,7 +308,8 @@ class Minesweeper
         if (this.isFlagged(tileX, tileY))
         {
             this.gameState[tileX][tileY].flagged = false;
-            flaggedTile.setAttribute("class", "tile hidden");
+            flaggedTile.innerHTML = "";
+
             // increment the bomb counter
             this.bombCount++;
             this.updateMineCounter(this.bombCount);
@@ -329,7 +317,11 @@ class Minesweeper
         else
         {
             this.gameState[tileX][tileY].flagged = true;
-            flaggedTile.setAttribute("class", "tile hidden flag");
+
+            let newFlag = document.createElement("img");
+            newFlag.setAttribute("src", "./assets/flag.png");
+            flaggedTile.appendChild(newFlag);
+
             // decrement hte bomb counter
             this.bombCount--;
             this.updateMineCounter(this.bombCount);

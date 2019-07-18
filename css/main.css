@@ -80,14 +80,11 @@ body
     user-select: none;
 
     height: 3rem; width: 3rem;
-}
 
-.hidden
-{
     background-color:rgb(46, 201, 46);
 }
 
-.hidden.odd
+.odd
 {
     background-color:lightgreen;
 }
@@ -105,7 +102,7 @@ body
 
 }
 
-.row .flag
+.flag
 {
     background-image: url('../assets/flag.png');
     background-size: 80% 80%;
@@ -114,7 +111,7 @@ body
 
 }
 
-.row .bomb
+.bomb
 {
     background-color: red;
     background-image: url('../assets/bomb.png');
@@ -132,27 +129,27 @@ body
 }
 
 
-.tile span.bomb1
+.bomb1
 {
     color: blue;
 }
 
-.tile span.bomb2
+.bomb2
 {
     color: green;
 }
 
-.tile span.bomb3
+.bomb3
 {
     color: red;
 }
 
-.tile span.bomb4
+.bomb4
 {
     color: purple;
 }
 
-.tile span.bomb5
+.bomb5
 {
     color: orange;
 }
