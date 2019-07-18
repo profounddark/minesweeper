@@ -1,6 +1,6 @@
 body
 {
-    margin: 2rem; padding: 0;
+    margin: 0; padding: 0;
 }
 
 
@@ -70,16 +70,24 @@ body
     font-family: Impact, Charcoal, sans-serif;
 }
 
-@media screen and (min-width: 500px)
+@media screen and (min-width: 350px)
+{
+    .gameboard
+    {
+        height: 350px; width: 350px;
+    }
+
+}
+
+@media screen and (min-width: 400px)
 {
     .gameboard
     {
         height: 400px; width: 400px;
     }
-
 }
 
-@media screen and (min-width: 600px)
+@media screen and (min-width: 500px)
 {
     .gameboard
     {
