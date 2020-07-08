@@ -1,61 +1,69 @@
 <html>
-    <head>
-        <title>Minesweeper!</title>
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        
-        <meta charset="UTF-8">
-        <meta name="description" content="Minesweeper in HTML/CSS/JS">
-        <meta name="author" content="Andrew Asplund">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <meta name="og:title" content="Minesweeper in HTML/CSS/JS">
-        <meta name="og:type" content="website">
-        <meta name="og:image" content="">
-        <meta name="og:url" content="http://profounddark.games/minesweeper">
+<head>
+    <title>Minesweeper!</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
-    </head>
-    <body>
-        <script src="./js/minesweeper.js"></script>
-        <div class="playarea">
-            
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="title" property="og:title" content="Minesweeper in HTML/CSS/JS">
+    <meta name="author" content="Andrew Asplund">
+    <meta name="description" property="og:descrpition"
+        content="A very basic implementation of Minesweeper written in HTML/CSS/JS.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://profounddark.dev/minesweeper/minesweeper_ogimg.png">
+    <meta property="og:url" content="https://profounddark.dev/minesweeper">
+
+</head>
+
+<body>
+    <script src="./js/minesweeper.js"></script>
+    <div class="playarea">
+
+        <div class="infoScreen">
             <div class="timer">
                 Time: <span id="timer">000</span>
             </div>
             <div class="minecounter">
                 Mines: <span id="minecounter">10</span>
             </div>
-            
-            <div class="gameboard" id="gameboard" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);">
-                <div class="tile hidden" style="grid-row: 1; grid-column: 1;"></div>
-                <div class="tile hidden odd" style="grid-row: 1; grid-column: 2;"></div>
-                <div class="tile hidden" style="grid-row: 1; grid-column: 3;"></div>
-                
-                <div class="tile hidden odd" style="grid-row: 2; grid-column: 1;"></div>
-                <div class="tile hidden" style="grid-row: 2; grid-column: 2;"></div>
-                <div class="tile hidden odd" style="grid-row: 2; grid-column: 3;"></div>
-
-                <div class="tile hidden" style="grid-row: 3; grid-column: 1;"></div>
-                <div class="tile hidden odd" style="grid-row: 3; grid-column: 2;"></div>
-                <div class="tile hidden" style="grid-row: 3; grid-column: 3;"></div>
-    
-            </div>
-
-        </div>
-        
-
-        <div class = "lose-screen" id="lose-screen">
-            <div class="container">
-                <h2>You have exploded a bomb!</h2>
-                <p><a class="btn btn-success btn-block" href=".">Play Again?</a></p>
-            </div>
-        </div>
-        <div class = "win-screen" id="win-screen">
-            <div class="container">
-                <h2>You have found all of the bombs!</h2>
-                <p><a class="btn btn-success btn-block" href=".">Play Again?</a></p>
-            </div>
         </div>
 
-    </body>
+        <div class="gameboard" id="gameboard"
+            style="grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr);">
+            <div class="tile hidden" style="grid-row: 1; grid-column: 1;"></div>
+            <div class="tile hidden odd" style="grid-row: 1; grid-column: 2;"></div>
+            <div class="tile hidden" style="grid-row: 1; grid-column: 3;"></div>
+
+            <div class="tile hidden odd" style="grid-row: 2; grid-column: 1;"></div>
+            <div class="tile hidden" style="grid-row: 2; grid-column: 2;"></div>
+            <div class="tile hidden odd" style="grid-row: 2; grid-column: 3;"></div>
+
+            <div class="tile hidden" style="grid-row: 3; grid-column: 1;"></div>
+            <div class="tile hidden odd" style="grid-row: 3; grid-column: 2;"></div>
+            <div class="tile hidden" style="grid-row: 3; grid-column: 3;"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="lose-screen" id="lose-screen">
+        <div class="container">
+            <h2>You have exploded a bomb!</h2>
+            <p><a class="btn btn-success btn-block" href=".">Play Again?</a></p>
+        </div>
+    </div>
+    <div class="win-screen" id="win-screen">
+        <div class="container">
+            <h2>You have found all of the bombs!</h2>
+            <p><a class="btn btn-success btn-block" href=".">Play Again?</a></p>
+        </div>
+    </div>
+
+</body>
+
 </html>

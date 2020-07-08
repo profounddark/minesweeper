@@ -29,17 +29,17 @@ body
     
 }
 
-/* scoreboard */
-.playarea
-{
-
+.infoScreen {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
 }
 
 .timer, .minecounter
 {
     font-family: Impact, Charcoal, sans-serif;
     font-size: 2rem;
-    padding: 0 5rem;
+    padding: 0 .5rem;
     grid-row: 1;
 }
 
@@ -98,7 +98,7 @@ body
 
 .tile
 {
-    font-size: inherit;
+    font-size: 1.5rem;
 
     text-align: center;
     margin: 0; padding: 0;
